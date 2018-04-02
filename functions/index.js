@@ -2,6 +2,7 @@ var functions = require('firebase-functions');
 var twit = require('twit');
 var config = require('./config.js');
 var XMLHttpRequest = require('xhr2');
+var dictionary = require('./dictionary.js')
 
 var admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
@@ -22,8 +23,37 @@ var getJSON = function(url, callback) {
     xhr.send();
 };
 
+/* Check if the title contains a word related to cryptocurrency and return a hashtag set */ 
+var postHashtag =  function (title) {
+    var termsLenght = dictionary.commonTerms.length;
+    var substrings = [];
+    while(termsLenght--) {
+        if(title.includes(dictionary.commonTerms[termsLenght])) {
+            substrings.push(dictionary.commonTerms[termsLenght])
+        }
+    }
+    
+    var hashtags = [];
+    for (i = 0;i < substrings.length; i++) {
+        console.log(dictionary.hashtags[substrings[i]]);
+        hashtags.push(dictionary.hashtags[substrings[i]])
+    }
+
+    hashtags = hashtags.filter((x, i, a) => a.indexOf(x) == i)
+
+    var toadd = ' ';
+    for(i=0; i < hashtags.length; i++) {
+        toadd = toadd + hashtags[i] + ' ';
+    }
+
+    console.log(toadd);
+    return toadd;
+
+
+}
+
 var parseTwit = function(post) {
-    return post.data.title + ' https://reddit.com' + post.data.permalink
+    return post.data.title + ' ' + postHashtag(post.data.title) + ' https://reddit.com' + post.data.permalink
 }
 
 var isAlreadyPost = function(post, tweets) {
@@ -57,7 +87,7 @@ exports.tweetBest = functions.https.onRequest((req, res) => {
                         }
                         console.log(tweet);  // Tweet body.
                         console.log(response);
-                        return res.send(bestPost);  // Raw response object.
+                        return res.send('Ok');  // Raw response object.
                     }); 
                 } else {
                     // Try with the next Reddit Post.
