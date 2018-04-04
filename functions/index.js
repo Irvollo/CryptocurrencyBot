@@ -87,11 +87,11 @@ exports.tweetBest = functions.https.onRequest((req, res) => {
                         }
                         console.log(tweet);  // Tweet body.
                         console.log(response);
-                        return res.send('Ok');  // Raw response object.
+                        return res.send('New tweet, YAY!');  // Raw response object.
                     }); 
                 } else {
                     // Try with the next Reddit Post.
-                    return res.send('Will try with another post')
+                    return res.send('Will try with another post');
                 }
             })
         }

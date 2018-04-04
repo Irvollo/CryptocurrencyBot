@@ -67,7 +67,7 @@ var hashtags = {
     'Stellar':'$XLM #Stellar',
     'XLM': '$XLM #Stellar',
     ' NEO ': '$NEO',
-    'Monero':'$XRM #Monero',
+    'Monero':'$XMR #Monero',
     'XMR': '$XRM #Monero',
     'IOTA':'$MIOTA #IOTA',
     'MIOTA':'$MIOTA #IOTA',
